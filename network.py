@@ -85,7 +85,7 @@ def logMaker(status):
         pass
     LOGFILE += "/network.log"
     mess = ""
-    with open(LOGFILE, "w+") as f:
+    with open(LOGFILE, "a+") as f:
         today = date.today()
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
