@@ -104,5 +104,4 @@ def logMaker(status):
                 pass
         f.write(mess)
         
-
 commandManager()
