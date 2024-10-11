@@ -92,15 +92,15 @@ def logMaker(status):
         current_time = now.strftime("%H:%M:%S")
         match status:
             case 0:
-                mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully with arguments " + str(argv[2])
+                mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully with arguments " + str(argv[2]) + "\n"
             case 1:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with bad arguments " + str(argv[2])
+                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with bad arguments " + str(argv[2]) + "\n"
             case 2:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " does not exist"
+                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " does not exist\n"
             case 3:
-                mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully"
+                mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully\n"
             case 4:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[2]) + " called with too many arguments"
+                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[2]) + " called with too many arguments\n"
             case _:
                 pass
         f.write(mess)
