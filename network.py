@@ -81,18 +81,34 @@ def commandManager():
     logMaker(status)
 
 def logMaker(status):
-    LOGFILE = "C:\\Users\\guill\\AppData\\Local\\Temp"
+    LOGFILE = ""
+    if platform.system() == "Windows":
+        LOGFILE = "C:\\Users\\guill\\AppData\\Local\\Temp"
+    elif platform.system() == "Linux":
+        LOGFILE = "/tmp"
+    else:
+        exit()
     mode = 0o733
     try:
         os.mkdir(LOGFILE, mode)
     except FileExistsError:
         pass
-    LOGFILE += "\\network-tp3"
+    if platform.system() == "Windows":
+        LOGFILE += "\\network-tp3"
+    elif platform.system() == "Linux":
+        LOGFILE += "/network-tp3"
+    else:
+        exit()
     try:
         os.mkdir(LOGFILE, mode)
     except FileExistsError:
         pass
-    LOGFILE += "\\network.log"
+    if platform.system() == "Windows":
+        LOGFILE += "\\network.log"
+    elif platform.system() == "Linux":
+        LOGFILE += "/network.log"
+    else:
+        exit()
     mess = ""
     with open(LOGFILE, "a+") as f:
         today = date.today()
