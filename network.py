@@ -4,8 +4,9 @@ from datetime import date
 from datetime import datetime
 from sys import argv
 from re import search
-from socket import gethostbyname
+from socket import gethostbyname, AddressFamily
 from psutil import net_if_addrs
+
 
 # Check if the IP address is valid
 
@@ -40,11 +41,15 @@ def getIpNetMask():
         comparator = "enp0s8"
     else:
         pass
-    for nics, addrs in overall.items():
-        if nics == comparator:
-            addr = str(addrs[1]).split(", ")[1].split("=")[1].split("'")[1]
-            netm = str(addrs[1]).split(", ")[2].split("=")[1].split("'")[1]
-            return 3, addr, netm
+    addr, netm = None, None
+    for key, value in overall.items():
+        if key == comparator:
+            for i in range(len(value)):
+                if value[i].family == AddressFamily.AF_INET:
+                    addr = value[i].address
+                    netm = value[i].netmask
+                    break
+    return 3, addr, netm
 
 def changeNetToSlash(netmask):
     slash = 0
