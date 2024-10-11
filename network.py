@@ -1,5 +1,6 @@
-from os import *
-from datetime import *
+import os
+from datetime import date 
+from datetime import datetime
 from sys import argv
 from re import search
 from socket import gethostbyname
@@ -13,7 +14,7 @@ def is_up(ip):
     if not search(ip_pattern, ip):
         return 1, "DOWN ! (wrong ip b!tch)"
     else:
-        reponse = system(f"ping {ip} > $null")
+        reponse = os.system(f"ping {ip} > $null")
         if reponse == 0:
             return 0, "UP !"
         else:
@@ -51,7 +52,7 @@ def IpCidrAndPossibleAddresses() :
     cidr = changeNetToSlash(netmask)
     possibleAddresses = 2 ** (32 - cidr)
     idComp = str(ip) + "/" + str(cidr)
-    return 0, idComp
+    return 3, idComp
 
 def commandManager():
     res = None
@@ -75,12 +76,12 @@ def logMaker(status):
     LOGFILE = "C:\\Users\\guill\\AppData\\Local\\Temp"
     mode = 0o733
     try:
-        mkdir(LOGFILE, mode)
+        os.mkdir(LOGFILE, mode)
     except FileExistsError:
         pass
     LOGFILE += "\\network-tp3"
     try:
-        mkdir(LOGFILE, mode)
+        os.mkdir(LOGFILE, mode)
     except FileExistsError:
         pass
     LOGFILE += "\\network.log"
