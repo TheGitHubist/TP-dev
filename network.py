@@ -35,7 +35,7 @@ def getIpNetMask():
         if nics == "Wi-Fi":
             addr = str(addrs[1]).split(", ")[1].split("=")[1].split("'")[1]
             netm = str(addrs[1]).split(", ")[2].split("=")[1].split("'")[1]
-            return 3, [addr, netm]
+            return 3, addr, netm
 
 def changeNetToSlash(netmask):
     slash = 0
@@ -47,7 +47,7 @@ def changeNetToSlash(netmask):
     return slash
 
 def IpCidrAndPossibleAddresses() :
-    ip, netmask = getIpNetMask()
+    stat, ip, netmask = getIpNetMask()
     cidr = changeNetToSlash(netmask)
     possibleAddresses = 2 ** (32 - cidr)
     idComp = str(ip) + "/" + str(cidr)
@@ -72,18 +72,18 @@ def commandManager():
     logMaker(status)
 
 def logMaker(status):
-    LOGFILE = "%\appdata%/Local/Temp"
-    mode = 0o711
+    LOGFILE = "C:\\Users\\guill\\AppData\\Local\\Temp"
+    mode = 0o733
     try:
         mkdir(LOGFILE, mode)
     except FileExistsError:
         pass
-    LOGFILE += "/network-tp3"
+    LOGFILE += "\\network-tp3"
     try:
         mkdir(LOGFILE, mode)
     except FileExistsError:
         pass
-    LOGFILE += "/network.log"
+    LOGFILE += "\\network.log"
     mess = ""
     with open(LOGFILE, "a+") as f:
         today = date.today()
