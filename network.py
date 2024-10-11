@@ -1,4 +1,5 @@
 import os
+import platform
 from datetime import date 
 from datetime import datetime
 from sys import argv
@@ -32,8 +33,15 @@ def lookup(doname):
 
 def getIpNetMask():
     overall = net_if_addrs()
+    comparator = ""
+    if platform.system() == "Windows":
+        comparator = "Wi-Fi"
+    elif platform.system() == "Linux":
+        comparator = "enp0s8"
+    else:
+        pass
     for nics, addrs in overall.items():
-        if nics == "Wi-Fi":
+        if nics == comparator:
             addr = str(addrs[1]).split(", ")[1].split("=")[1].split("'")[1]
             netm = str(addrs[1]).split(", ")[2].split("=")[1].split("'")[1]
             return 3, addr, netm
