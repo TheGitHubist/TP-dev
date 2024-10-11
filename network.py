@@ -100,7 +100,7 @@ def logMaker(status):
             case 3:
                 mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully\n"
             case 4:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[2]) + " called with too many arguments\n"
+                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with too many arguments\n"
             case _:
                 pass
         f.write(mess)
