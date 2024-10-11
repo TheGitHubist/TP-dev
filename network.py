@@ -69,19 +69,17 @@ def IpCidrAndPossibleAddresses() :
 
 def commandManager():
     res = None
-    status = 0
-    match argv[1]:
-        case "lookup":
-            status, res = lookup(argv[2])
-        case "ping":
-            status, res = is_up(argv[2])
-        case "ip":
-            if len(argv) == 2:
-                status, res = IpCidrAndPossibleAddresses()
-            else:
-                status, res = 4, "Too many arguments, noob"
-        case _:
-            status, res = 2, str(argv[1]) + "is not an available command, noob"
+    if argv[1] == "lookup":
+        status, res = lookup(argv[2])
+    elif argv[1] == "ping":
+        status, res = is_up(argv[2])
+    elif argv[1] == "ip":
+        if len(argv) == 2:
+            status, res = IpCidrAndPossibleAddresses()
+        else:
+            status, res = 4, "Too many arguments, noob"
+    else:
+        status, res = 2, str(argv[1]) + "is not an available command, noob"
     print(res)
     logMaker(status)
 
@@ -119,19 +117,18 @@ def logMaker(status):
         today = date.today()
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
-        match status:
-            case 0:
-                mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully with arguments " + str(argv[2]) + "\n"
-            case 1:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with bad arguments " + str(argv[2]) + "\n"
-            case 2:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " does not exist\n"
-            case 3:
-                mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully\n"
-            case 4:
-                mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with too many arguments\n"
-            case _:
-                pass
+        if status == 0:
+            mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully with arguments " + str(argv[2]) + "\n"
+        elif status == 1:
+            mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with bad arguments " + str(argv[2]) + "\n"
+        elif status == 2:
+            mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " does not exist\n"
+        elif status == 3:
+            mess = str(today) + " " + str(current_time) + " [INFO] Command " + str(argv[1]) + " called successfully\n"
+        elif status == 4:
+            mess = str(today) + " " + str(current_time) + " [ERROR] Command " + str(argv[1]) + " called with too many arguments\n"
+        else:
+            pass
         f.write(mess)
         
 commandManager()
