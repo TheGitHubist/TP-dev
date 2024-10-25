@@ -61,7 +61,6 @@ s.listen(1)
 conn, addr = s.accept()
 
 print('Connected by', addr)
-
 while True:
 
     try:
@@ -75,5 +74,5 @@ while True:
         print("Error Occured.")
         break
 
-
 conn.close()
+s.close()
