@@ -17,6 +17,14 @@ args = parser.parse_args()
 parser.add_argument("-h", "--help", action="store_true")
 args = parser.parse_args()
 
+if args.help:
+    print("Usage: python server.py [options]")
+    print("Options:")
+    print("-p, --port <port> : Port sur lequel écouter. Par défaut, 13337.")
+    print("-l, --listen <adresse> : Adresse IP sur laquelle écouter. Par défaut, toutes les adresses IP disponibles.")
+    print("-h, --help : Afficher cette aide.")
+    sys.exit(0)
+
 if args.port != None:
     if int(args.port) < 0  or int(args.port) > 65535:
         print(f"ERROR -p argument invalide. Le port spécifié {int(args.port)} n'est pas un port valide (de 0 à 65535).")
@@ -39,13 +47,7 @@ if args.listen != None:
             print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas l'une des adresses IP de cette machine.")
             sys.exit(4)
 
-if args.help:
-    print("Usage: python server.py [options]")
-    print("Options:")
-    print("-p, --port <port> : Port sur lequel écouter. Par défaut, 13337.")
-    print("-l, --listen <adresse> : Adresse IP sur laquelle écouter. Par défaut, toutes les adresses IP disponibles.")
-    print("-h, --help : Afficher cette aide.")
-    sys.exit(0)
+
 
 
 s.listen(1)
