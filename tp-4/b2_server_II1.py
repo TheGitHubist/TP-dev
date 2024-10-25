@@ -8,6 +8,8 @@ port = 13337
 
 parser = argparse.ArgumentParser()
 
+parser = argparse.ArgumentParser(add_help=False)
+
 parser.add_argument("-p", "--port", action="store")
 
 parser.add_argument("-l", "--listen", action="store")
