@@ -34,7 +34,7 @@ if args.port != None:
         port = int(args.port)
 
 if args.listen != None:
-    if not re.search(r'(25[0–5]|2[0–4][0–9]|[0-1]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[0-1]?[0–9][0–9]?)$', str(args.listen)):
+    if not re.search(r'^(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?).(25[0–5]|2[0–4][0–9]|[01]?[0–9][0–9]?)$', str(args.listen)):
         print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas une addresse valide.")
         sys.exit(3)
     else:
