@@ -2,9 +2,21 @@ import socket
 import argparse
 import sys
 import re
+import platform
+from psutil import net_if_addrs
 
 host = ''
 port = 13337
+
+def getAllIps():
+    overall = net_if_addrs()
+    addrs = []
+    for key, value in overall.items():
+        for i in range(len(value)):
+            if value[i].family == socket.AddressFamily.AF_INET:
+                addrs.append(value[i].address)
+                break
+    return addrs
 
 parser = argparse.ArgumentParser()
 parser = argparse.ArgumentParser(add_help=False)
@@ -37,13 +49,10 @@ if args.listen != None:
     if not re.search(r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$', args.listen):
         print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas une addresse valide.")
         sys.exit(3)
+    elif not args.listen in getAllIps():
+        print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas l'une des adresses IP de cette machine.")
+        sys.exit(4)
     else:
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.bind((args.listen, port))
-        except socket.error as e:
-            print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas l'une des adresses IP de cette machine.")
-            sys.exit(4)
         host = args.listen
 
 host = args.port
