@@ -7,14 +7,12 @@ host = ''
 port = 13337
 
 parser = argparse.ArgumentParser()
-
 parser = argparse.ArgumentParser(add_help=False)
 
 parser.add_argument("-p", "--port", action="store")
-
 parser.add_argument("-l", "--listen", action="store")
-
 parser.add_argument("-h", "--help", action="store_true")
+
 args = parser.parse_args()
 
 if args.help:
@@ -46,9 +44,9 @@ if args.listen != None:
         except socket.error as e:
             print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas l'une des adresses IP de cette machine.")
             sys.exit(4)
+        host = args.listen
 
 host = args.port
-
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((host, port))
 s.listen(1)
