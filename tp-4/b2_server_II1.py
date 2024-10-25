@@ -9,10 +9,8 @@ port = 13337
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-p", "--port", action="store")
-args = parser.parse_args()
 
 parser.add_argument("-l", "--listen", action="store")
-args = parser.parse_args()
 
 parser.add_argument("-h", "--help", action="store_true")
 args = parser.parse_args()
