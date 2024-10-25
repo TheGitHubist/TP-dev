@@ -47,9 +47,10 @@ if args.listen != None:
             print(f"ERROR -l argument invalide. L'adresse {args.listen} n'est pas l'une des adresses IP de cette machine.")
             sys.exit(4)
 
+host = args.listen
 
-
-
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((host, port))
 s.listen(1)
 conn, addr = s.accept()
 
