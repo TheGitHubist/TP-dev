@@ -15,12 +15,13 @@ while True:
 
     try:
         data = conn.recv(1024)
+        
         if not data: break
         print(f"Données reçues du client : {data}")
-
-        if (data == "Meo") :
+        msg = data.decode()
+        if ("meo" in msg) :
             conn.sendall("Meo a toi cher confrere")
-        elif (data == "Waf") :
+        elif ("waf" in msg) :
             conn.sendall("ptdr t ki")
         else:
             conn.sendall("Mes salutations humble humain")

@@ -1,5 +1,6 @@
 import socket
 import sys
+import re
 
 host = '10.1.1.22'
 port = 13337
@@ -18,10 +19,10 @@ class WrongValueError(Exception):
     pass
 
 message = input('Entrez ce que vous souhaitez envoyer au serveur : ')
-if (type(message) != type("hell")):
-    raise ValueError
-elif (message != "meo" and message != "waf"):
-    raise WrongValueError("Data not sent, can only send 'meo' or 'waf'. Piece of shit of human !")
+if (type(message) != str):
+    raise TypeError
+elif (not re.search(r'[a-z,A-Z,0-9,\s]*(meo)[a-z,A-Z,0-9,\s]*|[a-z,A-Z,0-9,\s]*(waf)[a-z,A-Z,0-9,\s]*', message)):
+    raise WrongValueError("Data not sent, can only send message containing 'meo' or 'waf'. Piece of shit of human !")
 
 
 s.sendall(message.encode('utf-8'))
