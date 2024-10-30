@@ -17,9 +17,9 @@ async def main(url_list):
     contents = await asyncio.gather(*tasks)
     for url, content in zip(url_list, contents):
         print(f"Content for {url} fetched.")
-        file_name = 'web_' + url.split("/")[-1]
+        file_name = '/tmp/web_' + url.split("/")[-1]
         asyncio.run(write_content(content, file_name))
-        print(f"Content saved to web_{file_name}.")
+        print(f"Content saved to /tmp/web_{file_name}.")
 
 if __name__ == "__main__":
     asyncio.run(main(sys.argv[1]))
