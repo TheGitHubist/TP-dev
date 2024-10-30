@@ -5,9 +5,12 @@ import sys
 import os
 
 async def get_content(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            return await response.text()
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                return await response.text()
+    except aiohttp.ClientError:
+        return ''
 
 async def write_content(content, file):
     async with aiofiles.open(file, 'w') as f:
