@@ -13,7 +13,7 @@ async def write_content(content, file):
         await f.write(content)
 
 async def main(url_list):
-    tasks = [write_content(await get_content(url), '/tmp/web_' + url.split("/")[-1]) for url in url_list]
+    tasks = [write_content(await get_content(url), '/tmp/web_async_' + url.split("/")[-1]) for url in url_list]
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
