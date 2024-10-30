@@ -10,6 +10,7 @@ https://youtube.com
 https://open.spotify.com
 https://github.com
 https://trello.com
+
 [yasei@localhost TP-dev]$ time python tp-6/web_sync_mutiple.py /tmp/urls_list
 Content saved to web_www.ynov.com
 Content saved to web_example.org
