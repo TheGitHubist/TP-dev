@@ -29,10 +29,6 @@ def write_content(content, file):
         print(f'Error writing to file: {e}')
 
 def main():
-    try:
-        os.mkdir('/tmp/web_page', 0o733)
-    except FileExistsError:
-        pass
     write_content(get_content(sys.argv[1]), '/tmp/web_page/')
 
 if __name__ == "__main__":
