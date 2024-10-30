@@ -2,6 +2,7 @@ import aiofiles
 import aiohttp
 import asyncio
 import sys
+import os
 
 async def get_content(url):
     async with aiohttp.ClientSession() as session:
@@ -17,7 +18,7 @@ async def main(url_list_file):
     with open(url_list_file, 'r') as f:
         for line in f:
             urls.append(line.strip())
-    tasks = [write_content(await get_content(url), '/tmp/web_' + url.split("/")[-1]) for url in urls]
+    tasks = [write_content(await get_content(url), '/tmp/web_async_' + os.path.basename(url)) for url in urls]
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
