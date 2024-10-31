@@ -28,6 +28,7 @@ async def handle_client_msg(reader, writer):
                 print(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}")
         else:
             print(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}")
+        print("\n")
 
         await writer.drain()
 
