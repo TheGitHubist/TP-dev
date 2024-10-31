@@ -29,15 +29,15 @@ async def handle_client_msg(reader, writer):
             if addrs != addr:
                 if "\n" in message:
                     lines = message.split("\n")
-                    addrs['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {lines[0]}{bcolors.ENDC}".encode())
+                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {lines[0]}{bcolors.ENDC}".encode())
                     spaces = " " * len(f'{addr[0]}:{addr[1]}:> ')
                     for line in lines[1:]:
-                        addrs['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
+                        CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                 else:
-                    addrs["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}".encode())
-                addrs["w"].write("\n")
+                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}".encode())
+                CLIENTS[addrs]["w"].write("\n")
 
-            await addrs["w"].drain()
+            await CLIENTS[addrs]["w"].drain()
         
         await writer.drain()
 
