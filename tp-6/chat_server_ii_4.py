@@ -25,7 +25,7 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        for addrs in CLIENTS.items():
+        for addrs in CLIENTS.keys():
             if addrs != addr:
                 if "\n" in message:
                     lines = message.split("\n")
