@@ -29,7 +29,6 @@ async def handle_client_msg(reader, writer):
         for addrs in CLIENTS.keys():
             print(addrs)
             if addrs != addr:
-                print('sup !')
                 messList = message.split("\n")
                 if len(messList) > 1:
                     CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
@@ -39,8 +38,9 @@ async def handle_client_msg(reader, writer):
                 else:
                     CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                 CLIENTS[addrs]["w"].write(b"\n")
+                print(f"message sent from {addr} to {addrs}")
             else:
-                print('sup?')
+                pass
 
             await CLIENTS[addrs]["w"].drain()
         
