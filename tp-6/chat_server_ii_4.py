@@ -38,7 +38,7 @@ async def handle_client_msg(reader, writer):
                         CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                 else:
                     CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}".encode())
-                CLIENTS[addrs]["w"].write("\n")
+                CLIENTS[addrs]["w"].write(b"\n")
             else:
                 print('sup?')
 
