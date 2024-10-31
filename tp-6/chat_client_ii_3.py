@@ -35,8 +35,6 @@ async def asInput(r, w) :
 async def asRecieve(r, w) :
     while True:
         data = await r.read(1024)
-        print(data.decode())
-
         if not data:
             break
         print(f"{data.decode()}")
