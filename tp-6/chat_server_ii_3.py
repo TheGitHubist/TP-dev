@@ -20,7 +20,7 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        print(f"{bcolors.OKBLUE}{addr[0]!r}:{bcolors.OKGREEN}{addr[1]!r} {bcolors.HEADER}:> {message!r}")
+        print(f"{bcolors.OKBLUE}{addr[0]!r}:{bcolors.OKGREEN}{addr[1]!r} {bcolors.HEADER}:> {message!r}{bcolors.ENDC}")
 
         await writer.drain()
 
