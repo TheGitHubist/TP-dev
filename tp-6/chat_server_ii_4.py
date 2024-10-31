@@ -29,17 +29,16 @@ async def handle_client_msg(reader, writer):
             if addrs != addr:
                 if "\n" in message:
                     lines = message.split("\n")
-                    print(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {lines[0]}{bcolors.ENDC}")
                     addrs['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {lines[0]}{bcolors.ENDC}".encode())
                     spaces = " " * len(f'{addr[0]}:{addr[1]}:> ')
                     for line in lines[1:]:
-                        print(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}")
                         addrs['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                 else:
-                    print(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}")
                     addrs["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}".encode())
-                print("\n")
+                addrs["w"].write("\n")
 
+            await addrs["w"].drain()
+        
         await writer.drain()
 
 async def main():
