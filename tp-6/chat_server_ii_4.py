@@ -25,7 +25,6 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        print(CLIENTS)
         for addrs in CLIENTS.keys():
             print(addrs)
             if addrs[0] != addr[0]:
@@ -40,8 +39,8 @@ async def handle_client_msg(reader, writer):
                 CLIENTS[addrs]["w"].write(b"\n")
                 print(f"message sent from {addr} to {addrs}")
             else:
-                pass
-
+                print("message not sent to self")
+                
             await CLIENTS[addrs]["w"].drain()
         
         await writer.drain()
