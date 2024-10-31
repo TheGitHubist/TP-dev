@@ -27,6 +27,7 @@ async def handle_client_msg(reader, writer):
         message = data.decode()
         for addrs in CLIENTS.keys():
             if addrs != addr:
+                print('sup !')
                 if "\n" in message:
                     lines = message.split("\n")
                     CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {lines[0]}{bcolors.ENDC}".encode())
