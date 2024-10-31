@@ -3,6 +3,17 @@ import sys
 import aioconsole
 import asyncio
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(('10.1.1.22',8888))
 
@@ -28,7 +39,7 @@ async def asRecieve(r, w) :
 
         if not data:
             break
-        print(f"Le serveur a dit : {data.decode()}")
+        print(f"{data.decode()}")
 
 async def main() :
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
