@@ -8,8 +8,14 @@ s.connect(('10.1.1.22',8888))
 
 async def asInput(r, w) :
     while True:
-        line = await aioconsole.ainput()
-        if line.strip() == 'exit':
+        lines = []
+        while True:
+            ZaLine = await aioconsole.ainput()
+            if not ZaLine:
+                    break
+            lines.append(ZaLine)
+        line = '\n'.join(lines)
+        if line == 'exit':
             sys.exit(0)
         w.write(line.encode())
         await w.drain()
