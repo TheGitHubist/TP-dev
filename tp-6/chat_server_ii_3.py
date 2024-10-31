@@ -1,5 +1,16 @@
 import asyncio
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 async def handle_client_msg(reader, writer):
     while True:
         data = await reader.read(1024)
@@ -9,7 +20,7 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        print(f"{addr[0]!r}:{addr[1]!r} :> {message!r}")
+        print(f"{bcolors.OKBLUE}{addr[0]!r}:{bcolors.OKGREEN}{addr[1]!r} {bcolors.HEADER}:> {message!r}")
 
         await writer.drain()
 
