@@ -37,9 +37,11 @@ async def handle_client_msg(reader, writer):
                     for line in messList[1:]:
                         CLIENTS[addrs]['w'].write(b"\n")
                         CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
+                        await CLIENTS[addrs]["w"].drain()
                 else:
                     print("only one")
                     CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                    await CLIENTS[addrs]["w"].drain()
                 CLIENTS[addrs]['w'].write(b"\n")
                 await CLIENTS[addrs]["w"].drain()
                 print(f"message {message} from {addr} to {addrs}")
