@@ -30,14 +30,14 @@ async def handle_client_msg(reader, writer):
             print(addrs)
             if addrs != addr:
                 print('sup !')
-                if "\n" in message and len(message.split("\n")) > 1:
-                    lines = message.split("\n")
-                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {lines[0]}{bcolors.ENDC}".encode())
+                messList = message.split("\n")
+                if len(messList) > 1:
+                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                     spaces = " " * len(f'{addr[0]}:{addr[1]}:> ')
-                    for line in lines[1:]:
+                    for line in messList[1:]:
                         CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                 else:
-                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message.split("\n")[0]}{bcolors.ENDC}".encode())
+                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                 CLIENTS[addrs]["w"].write(b"\n")
             else:
                 print('sup?')
