@@ -44,8 +44,6 @@ async def handle_client_msg(reader, writer):
                 print(f"message sent from {addr} to {addrs}")
             else:
                 print("message not sent to self")
-        
-        await writer.drain()
 
 async def main():
     server = await asyncio.start_server(handle_client_msg, '10.1.1.22', 8888)
