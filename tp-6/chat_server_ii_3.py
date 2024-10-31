@@ -9,7 +9,7 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        print(f"Message recieved from {addr!r} : {message!r}")
+        print(f"{addr[0]!r}:{addr[1]!r} :> {message!r}")
 
         await writer.drain()
 
