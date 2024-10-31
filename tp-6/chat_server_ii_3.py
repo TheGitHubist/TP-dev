@@ -20,7 +20,14 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        print(f"{bcolors.OKBLUE}{addr[0]!r}:{bcolors.OKGREEN}{addr[1]!r} {bcolors.HEADER}:> {message!r}{bcolors.ENDC}")
+        if "\\n" in message:
+            lines = message.split("\\n")
+            print(f"{bcolors.OKBLUE}{addr[0]!r}:{bcolors.OKGREEN}{addr[1]!r} {bcolors.HEADER}:> {lines[0]!r}{bcolors.ENDC}")
+            spaces = " " * len(f'{addr[0]!r}:{addr[1]!r}')
+            for line in lines:
+                print(f"{spaces} {bcolors.HEADER}:> {line!r}{bcolors.ENDC}")
+        else:
+            print(f"{bcolors.OKBLUE}{addr[0]!r}:{bcolors.OKGREEN}{addr[1]!r} {bcolors.HEADER}:> {message!r}{bcolors.ENDC}")
 
         await writer.drain()
 
