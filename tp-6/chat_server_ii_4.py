@@ -28,7 +28,7 @@ async def handle_client_msg(reader, writer):
         print(CLIENTS)
         for addrs in CLIENTS.keys():
             print(addrs)
-            if addrs != addr:
+            if addrs[0] != addr[0]:
                 messList = message.split("\n")
                 if len(messList) > 1:
                     CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
