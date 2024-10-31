@@ -11,7 +11,7 @@ async def asInput(r, w) :
         line = await aioconsole.ainput()
         if line.strip() == 'exit':
             sys.exit(0)
-        w.write(line)
+        w.write(line.encode())
         await w.drain()
 
 
