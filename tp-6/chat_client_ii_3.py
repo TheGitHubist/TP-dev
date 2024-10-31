@@ -8,7 +8,7 @@ s.connect(('10.1.1.22',8888))
 
 async def asInput(r, w) :
     while True:
-        line = await aioconsole.get_input()
+        line = await aioconsole.ainput()
         if line.strip() == 'exit':
             sys.exit(0)
         w.write(line)
