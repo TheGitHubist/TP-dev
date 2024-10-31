@@ -42,7 +42,7 @@ async def handle_client_msg(reader, writer):
                     CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                 CLIENTS[addrs]['w'].write(b"\n")
                 await CLIENTS[addrs]["w"].drain()
-                print(f"message sent from {addr} to {addrs}")
+                print(f"message {message} from {addr} to {addrs}")
             else:
                 print("message not sent to self")
 
