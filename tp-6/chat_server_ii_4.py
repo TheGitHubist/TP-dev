@@ -36,6 +36,8 @@ async def handle_client_msg(reader, writer):
                 else:
                     CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {message}{bcolors.ENDC}".encode())
                 CLIENTS[addrs]["w"].write("\n")
+            else:
+                print('sup?')
 
             await CLIENTS[addrs]["w"].drain()
         
