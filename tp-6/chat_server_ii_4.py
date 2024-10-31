@@ -31,11 +31,13 @@ async def handle_client_msg(reader, writer):
                 messList = message.split("\n")
                 print(messList)
                 if len(messList) > 1:
+                    print("more than one")
                     CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                     spaces = " " * len(f'{addr[0]}:{addr[1]}:> ')
                     for line in messList[1:]:
                         CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                 else:
+                    print("only one")
                     CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                 CLIENTS[addrs]["w"].write(b"\n")
                 print(f"message sent from {addr} to {addrs}")
