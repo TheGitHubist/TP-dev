@@ -30,6 +30,7 @@ async def handle_client_msg(reader, writer):
             for addrs in CLIENTS.keys():
                 CLIENTS[addrs]['w'].write(f"{bcolors.WARNING}Le client {pseudo} vient de rejoindre la chatroom.{bcolors.ENDC}".encode())
                 await CLIENTS[addrs]["w"].drain()
+                continue
         CLIENTS[addr] = {}
         CLIENTS[addr]['w'] = writer
         CLIENTS[addr]['r'] = reader
