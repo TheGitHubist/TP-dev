@@ -14,6 +14,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 async def handle_client_msg(reader, writer):
+    pseudo = ''
     while True:
         data = await reader.read(1024)
         addr = writer.get_extra_info('peername')
@@ -22,8 +23,6 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
-        pseudo = ''
-
         
         newUsr = False
 
