@@ -49,16 +49,16 @@ async def handle_client_msg(reader, writer):
                     print(messList)
                     if len(messList) > 1:
                         print("more than one")
-                        CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                        CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{pseudo} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                         await CLIENTS[addrs]["w"].drain()
-                        spaces = " " * len(f'{addr[2]}:> ')
+                        spaces = " " * len(f'{pseudo}:> ')
                         for line in messList[1:]:
                             CLIENTS[addrs]['w'].write(b"\n")
                             CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                             await CLIENTS[addrs]["w"].drain()
                     else:
                         print("only one")
-                        CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                        CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{pseudo} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                         await CLIENTS[addrs]["w"].drain()
                     CLIENTS[addrs]['w'].write(b"\n")
                     await CLIENTS[addrs]["w"].drain()
