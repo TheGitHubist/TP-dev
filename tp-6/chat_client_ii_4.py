@@ -15,9 +15,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('10.1.1.22',8888))
-
 async def asInput(r, w) :
     while True:
         lines = []
@@ -46,6 +43,9 @@ async def asRecieve(r, w) :
             print(f"{data.decode()}")
 
 async def main() :
+    reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
+    tasks = [asInput(reader, writer), asRecieve(reader, writer)]
+
     pseudo = input("Enter your username : ")
     id = ''
     idFile = Path('/var/local/idServ')
@@ -53,15 +53,14 @@ async def main() :
         id = '|'
         with open('/var/local/idServ', 'r') as f:
             id += f.read()
-    s.sendall(('Hello|' + pseudo + id).encode())
-    reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
-    tasks = [asInput(reader, writer), asRecieve(reader, writer)]
+
+    writer.write(('Hello|'+pseudo+id).encode())
+    await writer.drain()
+    
     await asyncio.gather(*tasks)
-    s.close()
 
 if __name__ == "__main__":
     asyncio.run(main())
-    s.close()
     print("Connexion fermee")
 
 sys.exit(0)
