@@ -2,6 +2,7 @@ import socket
 import sys
 import aioconsole
 import asyncio
+from pathlib import Path
 
 class bcolors:
     HEADER = '\033[95m'
@@ -37,11 +38,23 @@ async def asRecieve(r, w) :
         data = await r.read(1024)
         if not data:
             break
-        print(f"{data.decode()}")
+        mess = data.decode()
+        if "ID|" in mess:
+            with open('/var/local/idServ', 'w+') as f:
+                f.write(mess)
+        else:
+            print(f"{data.decode()}")
 
 async def main() :
     pseudo = input("Enter your username : ")
+    id = ''
+    idFile = Path('/var/local/idServ')
+    if idFile.exists() :
+        id = '|'
+        with open('/var/local/idServ', 'r') as f:
+            id += f.read()
     s.sendall(('Hello|' + pseudo).encode())
+    s.close()
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
     tasks = [asInput(reader, writer), asRecieve(reader, writer)]
     await asyncio.gather(*tasks)
