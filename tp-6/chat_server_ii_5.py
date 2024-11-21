@@ -37,31 +37,30 @@ async def handle_client_msg(reader, writer):
         CLIENTS[addr]['pseudo'] = pseudo
 
         for addrs in CLIENTS.keys():
-            print(CLIENTS[addr]['pseudo'] + ' Sender')
-            print(CLIENTS[addrs]['pseudo'] + ' Reciever')
-            if addrs[0] != addr[0]:
-                if newUsr:
-                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addr]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
+            if newUsr:
+                CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addr]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
+                await CLIENTS[addrs]["w"].drain()
+            elif addrs[0] != addr[0]:
+                print(CLIENTS[addr]['pseudo'] + ' Sender')
+                print(CLIENTS[addrs]['pseudo'] + ' Reciever')
+                messList = message.split("\n")
+                print(messList)
+                if len(messList) > 1:
+                    print("more than one")
+                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addrs]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                     await CLIENTS[addrs]["w"].drain()
-                else :
-                    messList = message.split("\n")
-                    print(messList)
-                    if len(messList) > 1:
-                        print("more than one")
-                        CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addrs]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                    spaces = " " * len(f'{pseudo}:> ')
+                    for line in messList[1:]:
+                        CLIENTS[addrs]['w'].write(b"\n")
+                        CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                         await CLIENTS[addrs]["w"].drain()
-                        spaces = " " * len(f'{pseudo}:> ')
-                        for line in messList[1:]:
-                            CLIENTS[addrs]['w'].write(b"\n")
-                            CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
-                            await CLIENTS[addrs]["w"].drain()
-                    else:
-                        print("only one")
-                        CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{CLIENTS[addrs]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
-                        await CLIENTS[addrs]["w"].drain()
-                    CLIENTS[addrs]['w'].write(b"\n")
+                else:
+                    print("only one")
+                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{CLIENTS[addrs]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                     await CLIENTS[addrs]["w"].drain()
-                    print(f"message {message} from {addr} to {addrs}")
+                CLIENTS[addrs]['w'].write(b"\n")
+                await CLIENTS[addrs]["w"].drain()
+                print(f"message {message} from {addr} to {addrs}")
             else:
                 print("message not sent to self")
 
