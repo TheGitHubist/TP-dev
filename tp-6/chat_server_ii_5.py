@@ -37,6 +37,7 @@ async def handle_client_msg(reader, writer):
         CLIENTS[addr]['pseudo'] = pseudo
 
         for addrs in CLIENTS.keys():
+            print('1')
             if newUsr:
                 CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addr]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
                 await CLIENTS[addrs]["w"].drain()
