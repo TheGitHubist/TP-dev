@@ -54,10 +54,10 @@ async def main() :
         with open('/var/local/idServ', 'r') as f:
             id += f.read()
     s.sendall(('Hello|' + pseudo + id).encode())
-    s.close()
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
     tasks = [asInput(reader, writer), asRecieve(reader, writer)]
     await asyncio.gather(*tasks)
+    s.close()
 
 if __name__ == "__main__":
     asyncio.run(main())
