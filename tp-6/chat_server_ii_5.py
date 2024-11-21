@@ -37,12 +37,11 @@ async def handle_client_msg(reader, writer):
         CLIENTS[addr]['pseudo'] = pseudo
 
         for addrs in CLIENTS.keys():
-            print('1')
+            print(CLIENTS + "\n")
             if newUsr:
                 CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addr]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
                 await CLIENTS[addrs]["w"].drain()
             elif addrs[0] != addr[0]:
-                print(CLIENTS[addr])
                 print(CLIENTS[addr]['pseudo'] + ' Sender')
                 print(CLIENTS[addrs]['pseudo'] + ' Reciever')
                 messList = message.split("\n")
