@@ -41,7 +41,7 @@ async def asRecieve(r, w) :
 
 async def main() :
     pseudo = input("Enter your username : ")
-    s.sendall(()'Hello|' + pseudo).encode())
+    s.sendall(('Hello|' + pseudo).encode())
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
     tasks = [asInput(reader, writer), asRecieve(reader, writer)]
     await asyncio.gather(*tasks)
