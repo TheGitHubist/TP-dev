@@ -17,8 +17,13 @@ async def handle_client_msg(reader, writer):
     while True:
         data = await reader.read(1024)
         addr = writer.get_extra_info('peername')
-        pseudo = data.decode()
-        if 'Hello|' in pseudo :
+
+        if data == b'':
+            break
+
+        message = data.decode()
+
+        if 'Hello|' in message :
             pseudo = pseudo.split('|')[1]
             print(f"{bcolors.OKGREEN}{pseudo}{bcolors.ENDC} connected from {addr}")
         CLIENTS[addr] = {}
@@ -26,10 +31,6 @@ async def handle_client_msg(reader, writer):
         CLIENTS[addr]['r'] = reader
         CLIENTS[addr]['pseudo'] = pseudo
 
-        if data == b'':
-            break
-
-        message = data.decode()
         for addrs in CLIENTS.keys():
             print(addrs)
             if addrs[0] != addr[0]:
