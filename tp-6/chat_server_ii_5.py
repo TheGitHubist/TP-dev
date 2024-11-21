@@ -26,7 +26,9 @@ async def handle_client_msg(reader, writer):
 
         if 'Hello|' in message and addr not in CLIENTS :
             pseudo = message.split('|')[1]
-            print(f"{bcolors.OKGREEN}{pseudo}{bcolors.ENDC} connected from {addr}")
+            for addrs in CLIENTS.keys():
+                CLIENTS[addrs]['w'].write(f"{bcolors.WARNING}Le client {pseudo} vient de rejoindre la chatroom.{bcolors.ENDC}\n".encode())
+                await CLIENTS[addrs]["w"].drain()
         CLIENTS[addr] = {}
         CLIENTS[addr]['w'] = writer
         CLIENTS[addr]['r'] = reader
@@ -39,16 +41,16 @@ async def handle_client_msg(reader, writer):
                 print(messList)
                 if len(messList) > 1:
                     print("more than one")
-                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                     await CLIENTS[addrs]["w"].drain()
-                    spaces = " " * len(f'{addr[0]}:{addr[1]}:> ')
+                    spaces = " " * len(f'{addr[2]}:> ')
                     for line in messList[1:]:
                         CLIENTS[addrs]['w'].write(b"\n")
                         CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
                         await CLIENTS[addrs]["w"].drain()
                 else:
                     print("only one")
-                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[0]}:{bcolors.OKGREEN}{addr[1]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
                     await CLIENTS[addrs]["w"].drain()
                 CLIENTS[addrs]['w'].write(b"\n")
                 await CLIENTS[addrs]["w"].drain()
