@@ -2,6 +2,8 @@ import asyncio
 global CLIENTS
 CLIENTS = {}
 
+from pprint import pprint
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -38,7 +40,7 @@ async def handle_client_msg(reader, writer):
         CLIENTS[addr]['pseudo'] = pseudo
 
         for addrs in CLIENTS.keys():
-            print(CLIENTS)
+            pprint(CLIENTS)
             print(' s')
             if newUsr:
                 CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addr]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
