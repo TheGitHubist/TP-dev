@@ -23,7 +23,7 @@ async def asInput(r, w) :
         while True:
             ZaLine = await aioconsole.ainput()
             if not ZaLine:
-                    break
+                break
             lines.append(ZaLine)
         line = '\n'.join(lines)
         if line == 'exit':
