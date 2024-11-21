@@ -24,41 +24,41 @@ async def handle_client_msg(reader, writer):
         message = data.decode()
         pseudo = ''
 
-        if 'Hello|' in message and addr not in CLIENTS :
-            print('new user recieved')
-            pseudo = message.split('|')[1]
-            for addrs in CLIENTS.keys():
-                CLIENTS[addrs]['w'].write(f"{bcolors.WARNING}Le client {pseudo} vient de rejoindre la chatroom.{bcolors.ENDC}".encode())
-                await CLIENTS[addrs]["w"].drain()
-                continue
         CLIENTS[addr] = {}
         CLIENTS[addr]['w'] = writer
         CLIENTS[addr]['r'] = reader
         CLIENTS[addr]['pseudo'] = pseudo
 
-        for addrs in CLIENTS.keys():
-            print(addrs)
-            if addrs[0] != addr[0]:
-                messList = message.split("\n")
-                print(messList)
-                if len(messList) > 1:
-                    print("more than one")
-                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
-                    await CLIENTS[addrs]["w"].drain()
-                    spaces = " " * len(f'{addr[2]}:> ')
-                    for line in messList[1:]:
-                        CLIENTS[addrs]['w'].write(b"\n")
-                        CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
-                        await CLIENTS[addrs]["w"].drain()
-                else:
-                    print("only one")
-                    CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
-                    await CLIENTS[addrs]["w"].drain()
-                CLIENTS[addrs]['w'].write(b"\n")
+        if 'Hello|' in message and addr not in CLIENTS :
+            print('new user recieved')
+            CLIENTS[addr]['pseudo'] = message.split('|')[1]
+            for addrs in CLIENTS.keys():
+                CLIENTS[addrs]['w'].write(f"{bcolors.WARNING}Le client {pseudo} vient de rejoindre la chatroom.{bcolors.ENDC}".encode())
                 await CLIENTS[addrs]["w"].drain()
-                print(f"message {message} from {addr} to {addrs}")
-            else:
-                print("message not sent to self")
+        else :
+            for addrs in CLIENTS.keys():
+                print(addrs)
+                if addrs[0] != addr[0]:
+                    messList = message.split("\n")
+                    print(messList)
+                    if len(messList) > 1:
+                        print("more than one")
+                        CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                        await CLIENTS[addrs]["w"].drain()
+                        spaces = " " * len(f'{addr[2]}:> ')
+                        for line in messList[1:]:
+                            CLIENTS[addrs]['w'].write(b"\n")
+                            CLIENTS[addrs]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
+                            await CLIENTS[addrs]["w"].drain()
+                    else:
+                        print("only one")
+                        CLIENTS[addrs]["w"].write(f"{bcolors.OKBLUE}{addr[2]} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                        await CLIENTS[addrs]["w"].drain()
+                    CLIENTS[addrs]['w'].write(b"\n")
+                    await CLIENTS[addrs]["w"].drain()
+                    print(f"message {message} from {addr} to {addrs}")
+                else:
+                    print("message not sent to self")
 
 async def main():
     server = await asyncio.start_server(handle_client_msg, '10.1.1.22', 8888)
