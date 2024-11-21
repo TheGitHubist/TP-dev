@@ -24,21 +24,26 @@ async def handle_client_msg(reader, writer):
         message = data.decode()
         pseudo = ''
 
+        
+        newUsr = False
+
+        if 'Hello|' in message and addr not in CLIENTS :
+            print('new user recieved')
+            pseudo = message.split('|')[1]
+            newUsr = True
+
         CLIENTS[addr] = {}
         CLIENTS[addr]['w'] = writer
         CLIENTS[addr]['r'] = reader
         CLIENTS[addr]['pseudo'] = pseudo
 
-        if 'Hello|' in message and addr not in CLIENTS :
-            print('new user recieved')
-            CLIENTS[addr]['pseudo'] = message.split('|')[1]
-            for addrs in CLIENTS.keys():
-                CLIENTS[addrs]['w'].write(f"{bcolors.WARNING}Le client {pseudo} vient de rejoindre la chatroom.{bcolors.ENDC}".encode())
-                await CLIENTS[addrs]["w"].drain()
-        else :
-            for addrs in CLIENTS.keys():
-                print(addrs)
-                if addrs[0] != addr[0]:
+        for addrs in CLIENTS.keys():
+            print(addrs)
+            if addrs[0] != addr[0]:
+                if newUsr:
+                    CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{pseudo} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
+                    await CLIENTS[addrs]["w"].drain()
+                else :
                     messList = message.split("\n")
                     print(messList)
                     if len(messList) > 1:
@@ -57,8 +62,8 @@ async def handle_client_msg(reader, writer):
                     CLIENTS[addrs]['w'].write(b"\n")
                     await CLIENTS[addrs]["w"].drain()
                     print(f"message {message} from {addr} to {addrs}")
-                else:
-                    print("message not sent to self")
+            else:
+                print("message not sent to self")
 
 async def main():
     server = await asyncio.start_server(handle_client_msg, '10.1.1.22', 8888)
