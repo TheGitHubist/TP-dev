@@ -25,6 +25,7 @@ async def handle_client_msg(reader, writer):
         pseudo = ''
 
         if 'Hello|' in message and addr not in CLIENTS :
+            print('new user recieved')
             pseudo = message.split('|')[1]
             for addrs in CLIENTS.keys():
                 CLIENTS[addrs]['w'].write(f"{bcolors.WARNING}Le client {pseudo} vient de rejoindre la chatroom.{bcolors.ENDC}".encode())
