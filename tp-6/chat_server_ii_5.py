@@ -22,9 +22,10 @@ async def handle_client_msg(reader, writer):
             break
 
         message = data.decode()
+        pseudo = ''
 
-        if 'Hello|' in message :
-            pseudo = pseudo.split('|')[1]
+        if 'Hello|' in message and addr not in CLIENTS :
+            pseudo = message.split('|')[1]
             print(f"{bcolors.OKGREEN}{pseudo}{bcolors.ENDC} connected from {addr}")
         CLIENTS[addr] = {}
         CLIENTS[addr]['w'] = writer
