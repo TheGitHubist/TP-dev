@@ -38,7 +38,6 @@ async def handle_client_msg(reader, writer):
         CLIENTS[addr]['pseudo'] = pseudo
 
         for addrs in CLIENTS.keys():
-            print(addrs[2])
             print(CLIENTS[addr][2])
             if addrs[0] != addr[0]:
                 if newUsr:
