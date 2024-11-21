@@ -27,8 +27,9 @@ async def handle_client_msg(reader, writer):
         newUsr = False
 
         if 'Hello|' in message and addr not in CLIENTS :
-            print('new user recieved')
+            print('new user received')
             pseudo = message.split('|')[1]
+            print("HERE " + pseudo)
             newUsr = True
 
         CLIENTS[addr] = {}
@@ -38,7 +39,7 @@ async def handle_client_msg(reader, writer):
 
         for addrs in CLIENTS.keys():
             print(CLIENTS)
-            print()
+            print(' s')
             if newUsr:
                 CLIENTS[addrs]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[addr]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
                 await CLIENTS[addrs]["w"].drain()
