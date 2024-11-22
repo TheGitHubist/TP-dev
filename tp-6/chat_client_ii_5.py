@@ -52,15 +52,16 @@ async def main() :
 
     writer.write(('Hello|'+pseudo+id).encode())
     await writer.drain()
-
-    tasks = [asInput(reader, writer), asRecieve(reader, writer)]
-    await asyncio.gather(*tasks)
+    try:
+        tasks = [asInput(reader, writer), asRecieve(reader, writer)]
+        await asyncio.gather(*tasks)
+    except KeyboardInterrupt :
+        print(bcolors.FAIL + "Interruption de l'application" + bcolors.ENDC)
+        writer.write('&<END>')
+        return
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print(f"{bcolors.FAIL}Vous avez quitté la chatroom.{bcolors.ENDC}")
+    asyncio.run(main())
     print("Connexion fermee")
 
 sys.exit(0)

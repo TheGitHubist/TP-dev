@@ -31,71 +31,68 @@ async def handle_client_msg(reader, writer):
     pseudo = ''
     id = ''
     while True:
-        try:
-            data = await reader.read(1024)
-            addr = writer.get_extra_info('peername')
+        data = await reader.read(1024)
+        addr = writer.get_extra_info('peername')
 
-            if data == b'':
-                break
+        if data == b'':
+            break
 
-            message = data.decode()
-            
-            newUsr = False
+        message = data.decode()
+        
+        newUsr = False
 
-            if 'Hello|' in message and len(message.split("|")) == 2 :
-                print('new user received')
-                pseudo = message.split('|')[1]
-                id = generateId(100)
-                writer.write(("ID|"+id).encode())
-                newUsr = True
-            elif 'Hello|' in message and len(message.split("|")) > 2 :
-                print('already existing user try to reconnect')
-                pseudo = message.split('|')[1]
-                id = message.split('|')[2]
-                newUsr = True
-            elif 'Hello|' in message:
-                print(message)
-
-            CLIENTS[id] = {}
-            CLIENTS[id]['w'] = writer
-            CLIENTS[id]['r'] = reader
-            CLIENTS[id]['LastAdress'] = addr
-            CLIENTS[id]['pseudo'] = pseudo
-
-            for ids in CLIENTS.keys():
-                pprint(CLIENTS)
-                if newUsr:
-                    CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[id]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
-                    await CLIENTS[ids]["w"].drain()
-                elif ids != id:
-                    print(CLIENTS[id]['pseudo'] + ' Sender')
-                    print(CLIENTS[ids]['pseudo'] + ' Reciever')
-                    messList = message.split("\n")
-                    print(messList)
-                    if len(messList) > 1:
-                        print("more than one")
-                        CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[ids]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
-                        await CLIENTS[ids]["w"].drain()
-                        spaces = " " * len(f'{pseudo}:> ')
-                        for line in messList[1:]:
-                            CLIENTS[ids]['w'].write(b"\n")
-                            CLIENTS[ids]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
-                            await CLIENTS[ids]["w"].drain()
-                    else:
-                        print("only one")
-                        CLIENTS[ids]["w"].write(f"{bcolors.OKBLUE}{CLIENTS[ids]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
-                        await CLIENTS[ids]["w"].drain()
-                    CLIENTS[ids]['w'].write(b"\n")
-                    await CLIENTS[ids]["w"].drain()
-                    print(f"message {message} from {addr} to {ids}")
-                else:
-                    print("message not sent to self")
-        except ConnectionResetError :
+        if 'Hello|' in message and len(message.split("|")) == 2 :
+            print('new user received')
+            pseudo = message.split('|')[1]
+            id = generateId(100)
+            writer.write(("ID|"+id).encode())
+            newUsr = True
+        elif 'Hello|' in message and len(message.split("|")) > 2 :
+            print('already existing user try to reconnect')
+            pseudo = message.split('|')[1]
+            id = message.split('|')[2]
+            newUsr = True
+        elif '&<END>' in message :
             for ids in CLIENTS.keys():
                 CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[id]['pseudo']} {bcolors.WARNING} left the Chatroom {bcolors.ENDC}")
                 await CLIENTS[ids]['w'].drain()
             CLIENTS.pop(id, None)
             break
+
+        CLIENTS[id] = {}
+        CLIENTS[id]['w'] = writer
+        CLIENTS[id]['r'] = reader
+        CLIENTS[id]['LastAdress'] = addr
+        CLIENTS[id]['pseudo'] = pseudo
+
+        for ids in CLIENTS.keys():
+            pprint(CLIENTS)
+            if newUsr:
+                CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[id]['pseudo']} {bcolors.HEADER} has joined{bcolors.ENDC}".encode())
+                await CLIENTS[ids]["w"].drain()
+            elif ids != id:
+                print(CLIENTS[id]['pseudo'] + ' Sender')
+                print(CLIENTS[ids]['pseudo'] + ' Reciever')
+                messList = message.split("\n")
+                print(messList)
+                if len(messList) > 1:
+                    print("more than one")
+                    CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[ids]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                    await CLIENTS[ids]["w"].drain()
+                    spaces = " " * len(f'{pseudo}:> ')
+                    for line in messList[1:]:
+                        CLIENTS[ids]['w'].write(b"\n")
+                        CLIENTS[ids]['w'].write(f"{spaces} {bcolors.HEADER}{line}{bcolors.ENDC}".encode())
+                        await CLIENTS[ids]["w"].drain()
+                else:
+                    print("only one")
+                    CLIENTS[ids]["w"].write(f"{bcolors.OKBLUE}{CLIENTS[ids]['pseudo']} {bcolors.HEADER}:> {messList[0]}{bcolors.ENDC}".encode())
+                    await CLIENTS[ids]["w"].drain()
+                CLIENTS[ids]['w'].write(b"\n")
+                await CLIENTS[ids]["w"].drain()
+                print(f"message {message} from {addr} to {ids}")
+            else:
+                print("message not sent to self")
 
 async def main():
     server = await asyncio.start_server(handle_client_msg, '10.1.1.22', 8888)
