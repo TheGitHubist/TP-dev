@@ -53,6 +53,7 @@ async def handle_client_msg(reader, writer):
             id = message.split('|')[2]
             newUsr = True
         elif '&<END>' in message :
+            print('Client leaving')
             for ids in CLIENTS.keys():
                 CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[id]['pseudo']} {bcolors.WARNING} left the Chatroom {bcolors.ENDC}")
                 await CLIENTS[ids]['w'].drain()
