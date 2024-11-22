@@ -39,7 +39,7 @@ async def asRecieve(r, w) :
         else:
             print(f"{data.decode()}")
 
-async def main(reader, writer) :
+async def main() :
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
     try:
         pseudo = input("Enter your username : ")
