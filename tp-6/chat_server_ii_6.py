@@ -51,6 +51,7 @@ async def handle_client_msg(reader, writer):
             print('already existing user try to reconnect')
             pseudo = message.split('|')[1]
             id = message.split('|')[2]
+            newUsr = True
         elif 'Hello|' in message:
             print(message)
 
