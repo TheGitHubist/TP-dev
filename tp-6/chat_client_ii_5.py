@@ -39,20 +39,19 @@ async def asRecieve(r, w) :
         else:
             print(f"{data.decode()}")
 
-async def main() :
-    pseudo = input("Enter your username : ")
-    id = ''
-    idFile = Path('/tmp/idServ')
-    if idFile.exists() :
-        id = '|'
-        with open('/tmp/idServ', 'r') as f:
-            id += f.read()
-    
+async def main(reader, writer) :
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
-
-    writer.write(('Hello|'+pseudo+id).encode())
-    await writer.drain()
     try:
+        pseudo = input("Enter your username : ")
+        id = ''
+        idFile = Path('/tmp/idServ')
+        if idFile.exists() :
+            id = '|'
+            with open('/tmp/idServ', 'r') as f:
+                id += f.read()
+
+        writer.write(('Hello|'+pseudo+id).encode())
+        await writer.drain()
         tasks = [asInput(reader, writer), asRecieve(reader, writer)]
         await asyncio.gather(*tasks)
     except KeyboardInterrupt :
