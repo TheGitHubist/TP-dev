@@ -35,7 +35,7 @@ async def asRecieve(r, w) :
         mess = data.decode()
         if "ID|" in mess:
             with open('/tmp/idServ', 'w+') as f:
-                f.write(mess)
+                f.write(mess.split('|')[1])
         else:
             print(f"{data.decode()}")
 
