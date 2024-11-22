@@ -1,4 +1,3 @@
-import socket
 import sys
 import aioconsole
 import asyncio
@@ -37,7 +36,7 @@ async def asRecieve(r, w) :
             break
         mess = data.decode()
         if "ID|" in mess:
-            with open('/var/local/idServ', 'w+') as f:
+            with open('/tmp/idServ', 'w+') as f:
                 f.write(mess)
         else:
             print(f"{data.decode()}")
@@ -45,17 +44,18 @@ async def asRecieve(r, w) :
 async def main() :
     pseudo = input("Enter your username : ")
     id = ''
-    idFile = Path('/var/local/idServ')
+    idFile = Path('/tmp/idServ')
     if idFile.exists() :
         id = '|'
-        with open('/var/local/idServ', 'r') as f:
+        with open('/tmp/idServ', 'r') as f:
             id += f.read()
     
     reader, writer = await asyncio.open_connection(host="10.1.1.22", port=8888)
-    tasks = [asInput(reader, writer), asRecieve(reader, writer)]
+
     writer.write(('Hello|'+pseudo+id).encode())
     await writer.drain()
-    
+
+    tasks = [asInput(reader, writer), asRecieve(reader, writer)]
     await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
