@@ -92,7 +92,7 @@ async def handle_client_msg(reader, writer):
                     print("message not sent to self")
         except ConnectionResetError :
             for ids in CLIENTS.keys():
-                CLIENTS[ids]['w'].write(f'{bcolors.OKBLUE}{CLIENTS[id]['pseudo']} {bcolors.WARNING} left the Chatroom {bcolors.ENDC}')
+                CLIENTS[ids]['w'].write(f"{bcolors.OKBLUE}{CLIENTS[id]['pseudo']} {bcolors.WARNING} left the Chatroom {bcolors.ENDC}")
                 await CLIENTS[ids]['w'].drain()
             CLIENTS.pop(id, None)
             break
